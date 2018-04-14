@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.3"
+    }
+}
+
+plugins {
+    id "com.github.johnrengelman.shadow" version "2.0.3"
+}
+
+
+group 'com.spark.demo.grouping'
+version '1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    provided
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: "com.github.johnrengelman.shadow"
+
+dependencies {
+    compile group: 'org.apache.spark', name: 'spark-core_2.11', version: '2.3.0'
+}
+
+sourceSets {
+    main { compileClasspath += configurations.provided }
+}
+
+
+
+shadowJar {
+    zip64 true
+
+    exclude "META-INF/*.SF"
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude "LICENSE*"
+}
